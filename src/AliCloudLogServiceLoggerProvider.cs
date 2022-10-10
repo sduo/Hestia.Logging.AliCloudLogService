@@ -22,10 +22,10 @@ namespace Hestia.Logging.AliCloudLogService
 
         public AliCloudLogServiceLoggerProvider(IServiceProvider services) : base(services)
         {
-            string endpoint = configuration.GetValue<string>("endpoint", null);            
-            string project = configuration.GetValue<string>("project", null);
-            string ak = configuration.GetValue<string>("ak", null);
-            string sk = configuration.GetValue<string>("sk", null);
+            string endpoint = configuration.GetValue<string>($"{Prefix}:{Name}:endpoint", null);            
+            string project = configuration.GetValue<string>($"{Prefix}:{Name}:project", null);
+            string ak = configuration.GetValue<string>($"{Prefix}:{Name}:ak", null);
+            string sk = configuration.GetValue<string>($"{Prefix}:{Name}:sk", null);
             client = LogServiceClientBuilders.HttpBuilder
                 .Endpoint(endpoint, project)
                 .Credential(ak, sk)

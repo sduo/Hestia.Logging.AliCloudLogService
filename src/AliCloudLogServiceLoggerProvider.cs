@@ -50,7 +50,7 @@ namespace Hestia.Logging.AliCloudLogService
                 };
 
                 var contents = new Dictionary<string, string>() {
-                    { "Id",string.Format(configuration.GetValue("Id","{0}"),log.Id) },
+                    { "Id",string.Format(configuration.GetValue($"{Prefix}:{Name}:Id","{0}"),log.Id) },
                     { "OS", $"{Environment.OSVersion}" },
                     { "User",Environment.UserName },
                     { "UI", $"{Environment.UserInteractive}" },

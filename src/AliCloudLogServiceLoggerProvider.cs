@@ -100,6 +100,7 @@ namespace Hestia.Logging.AliCloudLogService
                 {
                     trace.Append($":{response.Error}");
                 }
+                trace.Append($":{response.RequestId}");
                 Trace.WriteLine($"[{nameof(AliCloudLogServiceLoggerProvider)}]{store}:{trace}");
             }
         }

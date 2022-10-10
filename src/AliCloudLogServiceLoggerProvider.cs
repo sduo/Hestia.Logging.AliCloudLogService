@@ -36,7 +36,7 @@ namespace Hestia.Logging.AliCloudLogService
 
         protected override async Task WriteMessagesAsync(IEnumerable<Log> logs, CancellationToken token)
         {
-            string store = configuration.GetValue<string>("store", null);
+            string store = configuration.GetValue<string>($"{Prefix}:{Name}:store", null);
 
             foreach (var log in logs)
             {
@@ -61,7 +61,7 @@ namespace Hestia.Logging.AliCloudLogService
                     { "Category",log.Category },
                     { "Level", $"{log.Level}" },
                     { "EventId", $"{log.Event.Id}" },
-                    { "EventName", log.Event.Name },
+                    { "EventName", log.Event.Name ?? string.Empty },
                     { "Message", log.Message },
                     { "Scopes", Utility.ToJson(log.Scopes) }
                 };

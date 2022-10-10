@@ -21,8 +21,11 @@ namespace Hestia.Logging.AliCloudLogService
     {
         private ILogServiceClient client;
 
-        public AliCloudLogServiceLoggerProvider(IServiceProvider services) : base(services)
+        private readonly Action<Dictionary<string, string>, Dictionary<string, string>> with;
+
+        public AliCloudLogServiceLoggerProvider(IServiceProvider services,Action<Dictionary<string,string>,Dictionary<string,string>> with = null) : base(services)
         {
+            this.with = with;
             string endpoint = configuration.GetValue<string>($"{Prefix}:{Name}:endpoint", null);            
             string project = configuration.GetValue<string>($"{Prefix}:{Name}:project", null);
             string ak = configuration.GetValue<string>($"{Prefix}:{Name}:ak", null);
@@ -80,6 +83,8 @@ namespace Hestia.Logging.AliCloudLogService
                         contents.Add("Stack",log.Exception.StackTrace);
                     }
                 }
+
+                with?.Invoke(tags, contents);
 
                 var response = await client.PostLogStoreLogsAsync(store, new LogGroupInfo
                 {

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -57,13 +58,13 @@ namespace Hestia.Logging.AliCloudLogService
                     { "ProcessId", $"{Environment.ProcessId}" },                    
                     { "Path",Environment.ProcessPath },
                     { "CommandLine",Environment.CommandLine },
-                    { "Timestamp",$"{log.Timestamp}" },
+                    { "Timestamp",$"{log.Timestamp.ToUnixTimeMilliseconds()}" },
                     { "Category",log.Category },
                     { "Level", $"{log.Level}" },
                     { "EventId", $"{log.Event.Id}" },
                     { "EventName", log.Event.Name ?? string.Empty },
                     { "Message", log.Message },
-                    { "Scopes", Utility.ToJson(log.Scopes) }
+                    { "Scopes", string.Join(configuration.GetValue($"{Prefix}:{Name}:ScopeSeparator",'\n'),log.Scopes.Select(x=>$"{x}")) }
                 };
 
                 if(log.Exception is not null)

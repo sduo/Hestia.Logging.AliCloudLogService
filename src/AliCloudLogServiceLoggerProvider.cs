@@ -67,7 +67,7 @@ namespace Hestia.Logging.AliCloudLogService
                     { "EventId", $"{log.Event.Id}" },
                     { "EventName", log.Event.Name ?? string.Empty },
                     { "Message", log.Message },
-                    { "Scopes", string.Join(configuration.GetValue($"{Prefix}:{Name}:ScopeSeparator",'\n'),log.Scopes.Select(x=>$"{x}")) }
+                    { "Scopes", Utility.ToJson(log.Scopes.Select(x=>$"{x}").ToArray()) }
                 };
 
                 if(log.Exception is not null)
